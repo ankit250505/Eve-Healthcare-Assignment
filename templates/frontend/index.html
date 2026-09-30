@@ -1,0 +1,148 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EVE Healthcare</title>
+    <link rel="stylesheet" href="{% static 'frontend/styles.css' %}">
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="/" aria-label="EVE Healthcare home">
+            <span class="brand-mark" aria-hidden="true">E</span>
+            <span>
+                <strong>EVE Healthcare</strong>
+                <small>Diagnostics booking</small>
+            </span>
+        </a>
+        <nav class="nav" aria-label="Primary">
+            <a href="#catalogue">Catalogue</a>
+            <a href="#booking">Book</a>
+            <a href="#my-bookings">My bookings</a>
+        </nav>
+        <div class="session-pill" id="sessionPill">Signed out</div>
+    </header>
+
+    <main>
+        <section class="hero" aria-labelledby="page-title">
+            <div class="hero-copy">
+                <p class="eyebrow">Book diagnostic tests with transparent pricing</p>
+                <h1 id="page-title">Choose a centre, pick a test, and confirm your appointment in minutes.</h1>
+                <p class="hero-text">Browse live catalogue data, book with a fixed price snapshot, then run the assignment's simulated payment flow from the same patient interface.</p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="#catalogue">Browse tests</a>
+                    <a class="button button-secondary" href="#auth-panel">Sign in</a>
+                </div>
+            </div>
+            <div class="hero-panel" aria-label="Booking journey preview">
+                <div class="preview-step active">
+                    <span>1</span>
+                    <p>Select centre and test</p>
+                </div>
+                <div class="preview-step">
+                    <span>2</span>
+                    <p>Confirm appointment</p>
+                </div>
+                <div class="preview-step">
+                    <span>3</span>
+                    <p>Simulate payment</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="status-strip" aria-live="polite" id="globalStatus">Ready. Catalogue data loads automatically.</section>
+
+        <section class="section-grid">
+            <article class="panel auth-panel" id="auth-panel">
+                <div class="panel-heading">
+                    <span class="section-kicker">Account</span>
+                    <h2>Sign in or create account</h2>
+                </div>
+
+                <div class="tabs" role="tablist" aria-label="Account actions">
+                    <button class="tab active" id="loginTab" type="button">Login</button>
+                    <button class="tab" id="signupTab" type="button">Signup</button>
+                </div>
+
+                <form class="form" id="authForm" novalidate>
+                    <div class="field-row signup-only">
+                        <label for="firstName">First name</label>
+                        <input id="firstName" name="first_name" autocomplete="given-name">
+                    </div>
+                    <div class="field-row signup-only">
+                        <label for="lastName">Last name</label>
+                        <input id="lastName" name="last_name" autocomplete="family-name">
+                    </div>
+                    <div class="field-row">
+                        <label for="email">Email</label>
+                        <input id="email" name="email" type="email" autocomplete="email" required>
+                    </div>
+                    <div class="field-row">
+                        <label for="password">Password</label>
+                        <input id="password" name="password" type="password" autocomplete="current-password" required>
+                    </div>
+                    <button class="button button-primary full-width" id="authSubmit" type="submit">Login</button>
+                </form>
+            </article>
+
+            <article class="panel" id="catalogue">
+                <div class="panel-heading split-heading">
+                    <div>
+                        <span class="section-kicker">Catalogue</span>
+                        <h2>Available tests</h2>
+                    </div>
+                    <label class="search-box">
+                        <span>Search</span>
+                        <input id="catalogueSearch" type="search" placeholder="City, centre, or test">
+                    </label>
+                </div>
+                <div class="catalogue-list" id="catalogueList" aria-live="polite"></div>
+            </article>
+        </section>
+
+        <section class="section-grid booking-grid">
+            <article class="panel" id="booking">
+                <div class="panel-heading">
+                    <span class="section-kicker">Booking</span>
+                    <h2>Confirm appointment</h2>
+                </div>
+                <div class="selected-offering" id="selectedOffering">Select a test from the catalogue to start.</div>
+                <form class="form" id="bookingForm" novalidate>
+                    <div class="field-row">
+                        <label for="appointmentAt">Appointment date and time</label>
+                        <input id="appointmentAt" name="appointment_at" type="datetime-local" required>
+                        <small>Timezone: Asia/Kolkata. The API receives an explicit +05:30 offset.</small>
+                    </div>
+                    <button class="button button-primary full-width" id="bookingSubmit" type="submit">Create booking</button>
+                </form>
+            </article>
+
+            <article class="panel checkout-panel">
+                <div class="panel-heading">
+                    <span class="section-kicker">Mock checkout</span>
+                    <h2>Simulated payment</h2>
+                </div>
+                <div class="checkout-summary" id="checkoutSummary">Create a booking to enable payment simulation.</div>
+                <div class="checkout-actions">
+                    <button class="button button-primary" id="paySuccess" type="button">Mark success</button>
+                    <button class="button button-danger" id="payFail" type="button">Mark failed</button>
+                </div>
+            </article>
+        </section>
+
+        <section class="panel bookings-panel" id="my-bookings">
+            <div class="panel-heading split-heading">
+                <div>
+                    <span class="section-kicker">History</span>
+                    <h2>My bookings</h2>
+                </div>
+                <button class="button button-secondary" id="refreshBookings" type="button">Refresh</button>
+            </div>
+            <div class="booking-list" id="bookingList" aria-live="polite"></div>
+        </section>
+    </main>
+
+    <script src="{% static 'frontend/app.js' %}" defer></script>
+</body>
+</html>

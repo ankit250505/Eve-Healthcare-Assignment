@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+.git/
+.postgres-data/
+.postgres-pw
+staticfiles/
+media/
+tmp/
+.pytest_cache/
+.coverage
+htmlcov/
+node_modules/
+dist/
